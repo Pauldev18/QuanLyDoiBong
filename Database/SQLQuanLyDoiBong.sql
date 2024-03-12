@@ -3,41 +3,40 @@ use quanlydoibong;
 
 create table Team
 (
-	IDTeam int auto_increment primary key,
-    TeamName nvarchar(255) not null,
-    CoachName nvarchar(255) not null,
-    Country nvarchar(255) not null
+    IDTeam int auto_increment primary key,
+    team_name nvarchar(255) not null,
+    coach_name nvarchar(255) not null,
+    country nvarchar(255) not null
 );
-
 CREATE TABLE player
 (
     IDPlayer int auto_increment primary key,
-    FullName nvarchar(255) not null,
-    DateOfBirth date not null,
-    Country nvarchar(255) not null,
-    Position nvarchar(255) not null,
-    JerseyNumber nvarchar(15) not null,
-    Photo longtext,
-    Height nvarchar(25),
-    Weight nvarchar(25),
-    Email nvarchar(50),
-    Phone nvarchar(50),
+    full_name nvarchar(255) not null,
+    date_of_birth date not null,
+    country nvarchar(255) not null,
+    position nvarchar(255) not null,
+    jersey_number nvarchar(15) not null,
+    photo longtext,
+    height nvarchar(25),
+    weight nvarchar(25),
+    email nvarchar(50),
+    phone nvarchar(50),
     IDTeam int,
-    ContractStartDate date,
-    ContractEndDate date,
+    contract_start_date date,
+    contract_end_date date,
     foreign key(IDTeam) references Team(IDTeam)
 );
 
 create table tournaments
 (
-	IDTournaments int auto_increment primary key,
-    TournamentsName nvarchar(255) not null,
-    StartDate date,
-    EndDate date
+    IDTournaments int auto_increment primary key,
+    tournaments_name nvarchar(255) not null,
+    start_date date,
+    end_date date
 );
 create table matches
 (
-	MatchID  int auto_increment primary key,
+    MatchID  int auto_increment primary key,
     IDTournaments int,
     HomeTeamID int,
     AwayTeamID int,
@@ -46,9 +45,9 @@ create table matches
     MatchDate date,
     status nvarchar(25),
     YellowCardsHomeTeam int,
-	RedCardsHomeTeam int,
-	YellowCardsAwayTeam int,
-	RedCardsAwayTeam int,
+    RedCardsHomeTeam int,
+    YellowCardsAwayTeam int,
+    RedCardsAwayTeam int,
     LoaiTranDau nvarchar(255),
     foreign key(IDTournaments) references tournaments(IDTournaments),
     foreign key(HomeTeamID) references Team(IDTeam),
@@ -56,29 +55,37 @@ create table matches
 );
 create table Standings
 (
-	IDStandings int auto_increment primary key,
+    IDStandings int auto_increment primary key,
     TeamID int,
     IDTournaments int,
     Points int,
-	foreign key(TeamID) references Team(IDTeam),
+    foreign key(TeamID) references Team(IDTeam),
     foreign key(IDTournaments) references tournaments(IDTournaments)
 );
-create table goalAndCard
+create table goals
 (
-	IDGoals int auto_increment primary key,
+    IDGoals int auto_increment primary key,
     MatchID int,
     IDPlayer int,
     GoalTime time,
-	YellowCards INT,
+    foreign key(MatchID) references matches(MatchID),
+    foreign key(IDPlayer) references player(IDPlayer)
+);
+create table cards
+(
+    IDCard int auto_increment primary key,
+    MatchID int,
+    IDPlayer int,
+    YellowCards INT,
     RedCards INT,
     foreign key(MatchID) references matches(MatchID),
-	foreign key(IDPlayer) references player(IDPlayer)
+    foreign key(IDPlayer) references player(IDPlayer)
 );
--- trigger tính điểm 
+-- trigger tính điểm
 DELIMITER //
 CREATE TRIGGER CalculatePointsAfterMatchInsert
-AFTER INSERT ON matches
-FOR EACH ROW
+    AFTER INSERT ON matches
+    FOR EACH ROW
 BEGIN
     DECLARE HomeTeamPoints INT;
     DECLARE AwayTeamPoints INT;
@@ -102,62 +109,52 @@ BEGIN
         SET HomeTeamPoints = 1;
     ELSE
         SET HomeTeamPoints = 0;
-    END IF;
+END IF;
 
-    -- Tính điểm cho đội khách
-    IF NEW.AwayTeamScore > NEW.HomeTeamScore THEN
+-- Tính điểm cho đội khách
+IF NEW.AwayTeamScore > NEW.HomeTeamScore THEN
         SET AwayTeamPoints = 3;
     ELSEIF NEW.HomeTeamScore = NEW.AwayTeamScore THEN
         SET AwayTeamPoints = 1;
-    ELSE
+ELSE
         SET AwayTeamPoints = 0;
-    END IF;
+END IF;
 
     -- Kiểm tra xem điểm cho đội nhà đã tồn tại trong bảng Standings hay chưa, nếu chưa thì thêm mới, nếu có rồi thì cập nhật
     IF existingHomeTeam IS NULL THEN
         INSERT INTO Standings (TeamID, IDTournaments, Points)
         VALUES (NEW.HomeTeamID, NEW.IDTournaments, HomeTeamPoints);
-    ELSE
-        UPDATE Standings
-        SET Points = Points + HomeTeamPoints
-        WHERE TeamID = NEW.HomeTeamID AND IDTournaments = NEW.IDTournaments;
-    END IF;
+ELSE
+UPDATE Standings
+SET Points = Points + HomeTeamPoints
+WHERE TeamID = NEW.HomeTeamID AND IDTournaments = NEW.IDTournaments;
+END IF;
 
     -- Kiểm tra xem điểm cho đội khách đã tồn tại trong bảng Standings hay chưa, nếu chưa thì thêm mới, nếu có rồi thì cập nhật
     IF existingAwayTeam IS NULL THEN
         INSERT INTO Standings (TeamID, IDTournaments, Points)
         VALUES (NEW.AwayTeamID, NEW.IDTournaments, AwayTeamPoints);
-    ELSE
-        UPDATE Standings
-        SET Points = Points + AwayTeamPoints
-        WHERE TeamID = NEW.AwayTeamID AND IDTournaments = NEW.IDTournaments;
-    END IF;
+ELSE
+UPDATE Standings
+SET Points = Points + AwayTeamPoints
+WHERE TeamID = NEW.AwayTeamID AND IDTournaments = NEW.IDTournaments;
+END IF;
 END;
 //
 
 DELIMITER ;
 
--- Chèn dữ liệu vào bảng Team
-INSERT INTO Team (TeamName, CoachName, Country)
-VALUES ('Manchester United', 'Ole Gunnar Solskjaer', 'England');
--- Chèn dữ liệu vào bảng Team
-INSERT INTO Team (TeamName, CoachName, Country)
-VALUES ('Real Madrid', 'Carlo Ancelotti', 'Spain');
-
--- Chèn dữ liệu vào bảng player
-INSERT INTO player (FullName, DateOfBirth, Country, Position, JerseyNumber, Photo, Height, Weight, Email, Phone, IDTeam, ContractStartDate, ContractEndDate)
-VALUES ('Cristiano Ronaldo', '1985-02-05', 'Portugal', 'Forward', '7', 'URL_anh', '187cm', '83kg', 'cr7@example.com', '123456789', 1, '2021-08-31', '2023-06-30');
-
-
--- Chèn dữ liệu vào bảng tournaments
-INSERT INTO tournaments (TournamentsName, StartDate, EndDate)
-VALUES ('Premier League', '2023-08-01', '2024-05-31');
-
--- Chèn dữ liệu vào bảng matches
-INSERT INTO matches (IDTournaments, HomeTeamID, AwayTeamID, HomeTeamScore, AwayTeamScore, MatchDate, status, YellowCardsHomeTeam, RedCardsHomeTeam, YellowCardsAwayTeam, RedCardsAwayTeam, LoaiTranDau)
-VALUES (1, 1, 2, 2, 1, '2024-03-10', 'Finished', 2, 0, 1, 0, 'League Match');
-
--- Chèn dữ liệu vào bảng goalAndCard
-INSERT INTO goalAndCard (MatchID, IDPlayer, GoalTime, YellowCards, RedCards)
-VALUES (1, 1, '60:00', 0, 0);
-
+-- Thêm 5 bản ghi vào bảng Team
+INSERT INTO Team (team_name, coach_name, country) VALUES
+                                                      ('Team A', 'Coach A', 'Country A'),
+                                                      ('Team B', 'Coach B', 'Country B'),
+                                                      ('Team C', 'Coach C', 'Country C'),
+                                                      ('Team D', 'Coach D', 'Country D'),
+                                                      ('Team E', 'Coach E', 'Country E');
+INSERT INTO player (full_name, date_of_birth, country, position, jersey_number, photo, height, weight, email, phone, IDTeam, contract_start_date, contract_end_date)
+VALUES
+    ('John Doe', '1990-05-15', 'USA', 'Forward', '10', 'base64encodedphoto', '180cm', '75kg', 'john.doe@example.com', '123456789', 1, '2022-01-01', '2023-12-31'),
+    ('Alice Smith', '1995-08-20', 'Canada', 'Midfielder', '8', 'base64encodedphoto', '165cm', '60kg', 'alice.smith@example.com', '987654321', 1, '2021-12-01', '2024-11-30'),
+    ('Bob Johnson', '1992-03-10', 'England', 'Defender', '5', 'base64encodedphoto', '185cm', '80kg', 'bob.johnson@example.com', '456123789', 2, '2023-06-15', '2025-06-14'),
+    ('Emma Lee', '1997-11-25', 'Australia', 'Goalkeeper', '1', 'base64encodedphoto', '175cm', '70kg', 'emma.lee@example.com', '321654987', 2, '2022-10-01', '2024-09-30'),
+    ('David Wang', '1993-07-18', 'China', 'Midfielder', '7', 'base64encodedphoto', '170cm', '68kg', 'david.wang@example.com', '789456123', 3, '2023-03-01', '2025-02-28');
