@@ -1,0 +1,78 @@
+package com.example.QuanLyDoiBong.Services.Impl;
+
+import com.example.QuanLyDoiBong.DTO.PlayerDTO;
+import com.example.QuanLyDoiBong.Entities.Player;
+import com.example.QuanLyDoiBong.Entities.Team;
+import com.example.QuanLyDoiBong.Repository.PlayerRepository;
+import com.example.QuanLyDoiBong.Repository.TeamRepository;
+import com.example.QuanLyDoiBong.Services.PlayerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class PlayerServiceImpl implements PlayerService {
+    private final PlayerRepository playerRepository;
+    private final TeamRepository teamRepository;
+    @Autowired
+    public PlayerServiceImpl(PlayerRepository playerRepository, TeamRepository teamRepository) {
+        this.playerRepository = playerRepository;
+        this.teamRepository = teamRepository;
+    }
+
+    @Override
+    public List<Player> getAllPlayer() {
+        return playerRepository.findAll();
+    }
+
+    @Override
+    public ResponseEntity<Object> updatePlayer(PlayerDTO player) {
+        try{
+            Optional<Player> updatePlayer = playerRepository.findById(player.getIDPlayer());
+            Optional<Team> team = teamRepository.findById(player.getIDTeam());
+            System.out.println(team);
+            System.out.println(updatePlayer);
+            if(updatePlayer.isPresent() && team.isPresent()){
+                Player PlayUpdate = updatePlayer.get();
+                PlayUpdate.setFullName(player.getFullName());
+                PlayUpdate.setCountry(player.getCountry());
+                PlayUpdate.setDateOfBirth(player.getDateOfBirth());
+                PlayUpdate.setPosition(player.getPosition());
+                PlayUpdate.setJerseyNumber(player.getJerseyNumber());
+                PlayUpdate.setPhoto(player.getPhoto());
+                PlayUpdate.setHeight(player.getHeight());
+                PlayUpdate.setWeight(player.getWeight());
+                PlayUpdate.setEmail(player.getEmail());
+                PlayUpdate.setPhone(player.getPhone());
+                PlayUpdate.setTeam(team.get());
+                PlayUpdate.setContractEndDate(player.getContractEndDate());
+                PlayUpdate.setContractStartDate(player.getContractStartDate());
+                Player saved = playerRepository.save(PlayUpdate);
+                return new ResponseEntity<>(saved, HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>("Không tìm thấy", HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Override
+    public ResponseEntity<Object> deletePlayer(int IDPlayer) {
+        try{
+            Optional<Player> delete = playerRepository.findById(IDPlayer);
+            if(delete.isPresent()){
+                playerRepository.delete(delete.get());
+                return new ResponseEntity<>("Xóa thành công", HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>("Không tìm thấy", HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+}
