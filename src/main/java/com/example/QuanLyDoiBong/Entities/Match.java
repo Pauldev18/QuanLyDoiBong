@@ -17,45 +17,45 @@ import java.util.Date;
 public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "MatchID")
+    @Column(name = "idmatch")
     private int matchID;
 
     @ManyToOne
-    @JoinColumn(name = "IDTournaments")
+    @JoinColumn(name = "idtournaments")
     private Tournament IDTournaments;
 
     @ManyToOne
-    @JoinColumn(name = "HomeTeamID")
+    @JoinColumn(name = "home_teamid")
     private Team homeTeam;
 
     @ManyToOne
-    @JoinColumn(name = "AwayTeamID")
+    @JoinColumn(name = "away_teamid")
     private Team awayTeam;
 
-    @Column(name = "HomeTeamScore")
+    @Column(name = "home_team_score")
     private int homeTeamScore;
 
-    @Column(name = "AwayTeamScore")
+    @Column(name = "away_team_score")
     private int awayTeamScore;
 
-    @Column(name = "MatchDate")
+    @Column(name = "match_date")
     private Date matchDate;
 
-    @Column(name = "Status")
+    @Column(name = "status")
     private String status;
 
-    @Column(name = "YellowCardsHomeTeam")
+    @Column(name = "yellow_cards_home_team")
     private int yellowCardsHomeTeam;
 
-    @Column(name = "RedCardsHomeTeam")
+    @Column(name = "red_cards_home_team")
     private int redCardsHomeTeam;
 
-    @Column(name = "YellowCardsAwayTeam")
+    @Column(name = "yellow_cards_away_team")
     private int yellowCardsAwayTeam;
 
-    @Column(name = "RedCardsAwayTeam")
+    @Column(name = "red_cards_away_team")
     private int redCardsAwayTeam;
 
-    @Column(name = "LoaiTranDau")
+    @Column(name = "loai_tran_dau")
     private String loaiTranDau;
 }

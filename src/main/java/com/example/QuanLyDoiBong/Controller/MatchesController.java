@@ -17,7 +17,7 @@ public class MatchesController {
     public MatchesController(MatchesService matchesService) {
         this.matchesService = matchesService;
     }
-    @GetMapping("getAllMatch")
+    @GetMapping("/getAllMatch")
     public List<Match> getAllMatch(){
         return matchesService.getAllMatch();
     }
