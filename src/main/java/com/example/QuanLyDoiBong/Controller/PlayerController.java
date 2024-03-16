@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin
 @RestController
 public class PlayerController {
     private PlayerService playerService;
@@ -27,5 +27,9 @@ public class PlayerController {
     @DeleteMapping("/deletePlayer/{IDPlayer}")
     public ResponseEntity<Object> deletePlayer(@PathVariable int IDPlayer){
         return playerService.deletePlayer(IDPlayer);
+    }
+    @PostMapping("/insertPlayer")
+    public ResponseEntity<Object> insertPlayer(@RequestBody PlayerDTO playerDTO){
+        return playerService.insertPlayer(playerDTO);
     }
 }

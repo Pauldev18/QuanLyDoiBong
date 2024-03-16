@@ -58,4 +58,25 @@ public class TeamServiceImpl implements TeamServices {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @Override
+    public ResponseEntity<Object> insertTeam(Team team) {
+        try{
+            Team newObj = new Team();
+            newObj.setIDTeam(team.getIDTeam());
+            newObj.setTeamName(team.getTeamName());
+            newObj.setCountry(team.getCountry());
+            newObj.setCoachName(team.getCoachName());
+           if(newObj != null){
+               teamRepo.save(newObj);
+               return new ResponseEntity<>("Thêm thành công", HttpStatus.OK);
+           }else{
+               return new ResponseEntity<>("Phải truyền đủ tham số", HttpStatus.BAD_REQUEST);
+           }
+
+        }catch(Exception ex){
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+    }
 }

@@ -75,4 +75,29 @@ public class PlayerServiceImpl implements PlayerService {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @Override
+    public ResponseEntity<Object> insertPlayer(PlayerDTO player) {
+        try{
+            Player newObj = new Player();
+            newObj.setCountry(player.getCountry());
+            newObj.setEmail(player.getEmail());
+            newObj.setFullName(player.getFullName());
+            newObj.setDateOfBirth(player.getDateOfBirth());
+            newObj.setPosition(player.getPosition());
+            newObj.setJerseyNumber(player.getJerseyNumber());
+            newObj.setPhoto(player.getPhoto());
+            newObj.setHeight(player.getHeight());
+            newObj.setWeight(player.getWeight());
+            newObj.setPhone(player.getPhone());
+            newObj.setIDPlayer(player.getIDPlayer());
+            newObj.setContractEndDate(player.getContractEndDate());
+            newObj.setContractStartDate(player.getContractStartDate());
+            playerRepository.save(newObj);
+            return new ResponseEntity<>("Thêm thành công", HttpStatus.OK);
+
+        }catch (Exception ex){
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

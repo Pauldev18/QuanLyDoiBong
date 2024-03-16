@@ -10,4 +10,5 @@ public interface PlayerService {
     List<Player> getAllPlayer();
     ResponseEntity<Object> updatePlayer(PlayerDTO player);
     ResponseEntity<Object> deletePlayer(int IDPlayer);
+    ResponseEntity<Object> insertPlayer(PlayerDTO player);
 }

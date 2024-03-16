@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
-
+@CrossOrigin
 @RestController
 public class TeamController {
     private TeamServices teamServices;
@@ -27,5 +27,9 @@ public class TeamController {
     @DeleteMapping("/deleteTeam/{IDTeam}")
     public ResponseEntity<Object> deleteTeam(@PathVariable int IDTeam){
         return teamServices.deleteTeam(IDTeam);
+    }
+    @PostMapping("/insertTeam")
+    public ResponseEntity<Object> insertTeam(@RequestBody Team team){
+        return teamServices.insertTeam(team);
     }
 }

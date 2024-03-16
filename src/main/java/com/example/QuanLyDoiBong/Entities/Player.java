@@ -39,7 +39,6 @@ public class Player {
     private String email;
     @Column(name= "Phone")
     private String phone;
-
     @ManyToOne
     @JoinColumn(name="IDTeam")
     private Team team;
