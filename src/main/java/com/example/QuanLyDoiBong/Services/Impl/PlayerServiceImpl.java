@@ -79,6 +79,7 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public ResponseEntity<Object> insertPlayer(PlayerDTO player) {
         try{
+            Optional<Team> selectTeam =  teamRepository.findById(player.getIDTeam());
             Player newObj = new Player();
             newObj.setCountry(player.getCountry());
             newObj.setEmail(player.getEmail());
@@ -90,7 +91,7 @@ public class PlayerServiceImpl implements PlayerService {
             newObj.setHeight(player.getHeight());
             newObj.setWeight(player.getWeight());
             newObj.setPhone(player.getPhone());
-            newObj.setIDPlayer(player.getIDPlayer());
+            newObj.setTeam(selectTeam.get());
             newObj.setContractEndDate(player.getContractEndDate());
             newObj.setContractStartDate(player.getContractStartDate());
             playerRepository.save(newObj);

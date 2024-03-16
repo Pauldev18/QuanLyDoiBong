@@ -1,6 +1,8 @@
 package com.example.QuanLyDoiBong.Entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +19,7 @@ import java.util.Date;
 public class Tournament {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("IDTournaments")
     private int IDTournaments;
 
     @Column(name = "TournamentsName", nullable = false)

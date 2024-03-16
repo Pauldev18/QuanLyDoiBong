@@ -1,6 +1,5 @@
 package com.example.QuanLyDoiBong.Entities;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,11 +17,12 @@ import java.util.Date;
 public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "MatchID")
     private int matchID;
 
     @ManyToOne
     @JoinColumn(name = "IDTournaments")
-    private Tournament tournament;
+    private Tournament IDTournaments;
 
     @ManyToOne
     @JoinColumn(name = "HomeTeamID")
