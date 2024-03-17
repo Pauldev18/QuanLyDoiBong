@@ -17,17 +17,21 @@ import java.sql.Time;
 public class Goal{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idgoals")
     private int IDGoals;
 
     @ManyToOne
-    @JoinColumn(name = "MatchID")
+    @JoinColumn(name = "idmatch")
     private Match match;
 
     @ManyToOne
-    @JoinColumn(name = "IDPlayer")
+    @JoinColumn(name = "idplayer")
     private Player player;
 
-    @Column(name = "GoalTime")
+    @Column(name = "goal_time")
     private Time goalTime;
+    @ManyToOne
+    @JoinColumn(name = "idteam")
+    private Team team;
 }
 

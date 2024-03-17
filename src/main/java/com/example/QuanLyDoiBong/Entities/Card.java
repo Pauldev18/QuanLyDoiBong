@@ -17,18 +17,20 @@ import java.sql.Time;
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idcard")
     private int IDCard;
     @ManyToOne
-    @JoinColumn(name = "MatchID")
+    @JoinColumn(name = "idmatch")
     private Match match;
-
     @ManyToOne
-    @JoinColumn(name = "IDPlayer")
+    @JoinColumn(name = "idplayer")
     private Player player;
-
-    @Column(name = "YellowCards")
+    @Column(name = "yellow_cards")
     private int yellowCards;
-    @Column(name = "RedCards")
+    @Column(name = "red_cards")
     private int redCards;
+    @ManyToOne
+    @JoinColumn(name = "idteam")
+    private Team team;
 }
 

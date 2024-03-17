@@ -68,6 +68,8 @@ create table goals
     idmatch int,
     idplayer int,
     goal_time time,
+    idteam int,
+    foreign key(idteam) references Team(idteam),
     foreign key(idmatch) references matches(idmatch),
     foreign key(idplayer) references player(idplayer)
 );
@@ -78,6 +80,8 @@ create table cards
     idplayer int,
     yellow_cards INT,
     red_cards INT,
+    idteam int,
+    foreign key(idteam) references Team(idteam),
     foreign key(idmatch) references matches(idmatch),
     foreign key(idplayer) references player(idplayer)
 );

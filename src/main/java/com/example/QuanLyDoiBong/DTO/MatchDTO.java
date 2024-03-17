@@ -13,6 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MatchDTO {
+    @JsonProperty("IDMatch")
     private int IDMatch;
     @JsonProperty("IDTournament")
     private int IDTournament;
