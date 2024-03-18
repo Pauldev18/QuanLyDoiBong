@@ -53,7 +53,7 @@ public class MatchesServiceImpl implements MatchesService {
                     match.getLoaiTranDau()
             );
             matchRepository.save(newObj);
-            return new ResponseEntity<>(Map.of("message", "Lỗi", "data", newObj), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message", "Thành công", "data", newObj), HttpStatus.BAD_REQUEST);
         }catch(Exception ex){
             return new ResponseEntity<>(Map.of("message", "Lỗi", "error", ex.getMessage()), HttpStatus.BAD_REQUEST);
         }
