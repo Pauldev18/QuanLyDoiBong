@@ -1,6 +1,7 @@
 package com.example.QuanLyDoiBong.Controller;
 
 import com.example.QuanLyDoiBong.DTO.MatchDTO;
+import com.example.QuanLyDoiBong.DTO.ThongKeMatch;
 import com.example.QuanLyDoiBong.Entities.Match;
 import com.example.QuanLyDoiBong.Services.MatchesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,10 @@ public class MatchesController {
     @DeleteMapping("/deleteMatches/{IDMatch}")
     public ResponseEntity<Object> deleteMatch(@PathVariable int IDMatch){
         return matchesService.deleteMacth(IDMatch);
+    }
+
+    @GetMapping("/thongke/{IDTour}")
+    public ResponseEntity<List<ThongKeMatch>> getThongKe(@PathVariable int IDTour){
+        return matchesService.thongKe(IDTour);
     }
 }

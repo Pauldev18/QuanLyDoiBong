@@ -15,17 +15,18 @@ import lombok.Setter;
 public class Standings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name ="idstandings")
     private int IDStandings;
 
     @ManyToOne
-    @JoinColumn(name = "TeamID")
+    @JoinColumn(name = "idteam")
     private Team team;
 
     @ManyToOne
-    @JoinColumn(name = "IDTournaments")
+    @JoinColumn(name = "idtournaments")
     private Tournament tournament;
 
-    @Column(name = "Points")
+    @Column(name = "points")
     private int points;
 
 }

@@ -1,9 +1,11 @@
 package com.example.QuanLyDoiBong.Services.Impl;
 
 import com.example.QuanLyDoiBong.DTO.MatchDTO;
+import com.example.QuanLyDoiBong.DTO.ThongKeMatch;
 import com.example.QuanLyDoiBong.Entities.Match;
 import com.example.QuanLyDoiBong.Entities.Team;
 import com.example.QuanLyDoiBong.Entities.Tournament;
+import com.example.QuanLyDoiBong.Repository.GoalRepository;
 import com.example.QuanLyDoiBong.Repository.MatchRepository;
 import com.example.QuanLyDoiBong.Repository.TeamRepository;
 import com.example.QuanLyDoiBong.Repository.TournamentRepository;
@@ -13,14 +15,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class MatchesServiceImpl implements MatchesService {
     private final MatchRepository matchRepository;
     private final TournamentRepository tournamentRepository;
     private final TeamRepository teamRepository;
+    @Autowired
+    private GoalRepository goalRepository;
     @Autowired
     public MatchesServiceImpl(MatchRepository matchRepository, TournamentRepository tournamentRepository, TeamRepository teamRepository) {
         this.matchRepository = matchRepository;
@@ -104,4 +111,27 @@ public class MatchesServiceImpl implements MatchesService {
             return new ResponseEntity<>(Map.of("message", "Lỗi", "error", ex.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @Override
+    public ResponseEntity<List<ThongKeMatch>> thongKe(int IDTour) {
+        List<Object[]> thongKeList = matchRepository.thongKe(IDTour);
+
+        List<ThongKeMatch> result = thongKeList.stream()
+                .map(obj -> {
+                    ThongKeMatch thongKeMatch = new ThongKeMatch();
+                    thongKeMatch.setTeamName((String) obj[0]);
+                    thongKeMatch.setSoTranDaDau(((Number) obj[1]).intValue()); // Sử dụng Number.intValue() để chuyển đổi sang int
+                    thongKeMatch.setSoBanThua(((Number) obj[2]).intValue());
+                    thongKeMatch.setSoBanThang(((Number) obj[3]).intValue());
+                    thongKeMatch.setTongSoTranThang(((Number) obj[4]).intValue());
+                    thongKeMatch.setTongSoTranThua(((Number) obj[5]).intValue());
+                    thongKeMatch.setTongSoTranHoa(((Number) obj[6]).intValue());
+                    thongKeMatch.setPoint(((Number) obj[7]).intValue());
+                    return thongKeMatch;
+                })
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(result);
+    }
+
 }
