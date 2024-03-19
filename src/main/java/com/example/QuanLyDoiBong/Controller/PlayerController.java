@@ -6,7 +6,9 @@ import com.example.QuanLyDoiBong.Services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 @CrossOrigin
 @RestController
@@ -31,5 +33,10 @@ public class PlayerController {
     @PostMapping("/insertPlayer")
     public ResponseEntity<Object> insertPlayer(@RequestBody PlayerDTO playerDTO){
         return playerService.insertPlayer(playerDTO);
+    }
+    @PostMapping("/updateImagePlayer")
+    public ResponseEntity<Object> updateImage(@RequestParam("IDPlayer") int IDPlayer,
+                                              @RequestParam("avatar")MultipartFile avt) throws IOException {
+        return playerService.updateImage(IDPlayer, avt);
     }
 }

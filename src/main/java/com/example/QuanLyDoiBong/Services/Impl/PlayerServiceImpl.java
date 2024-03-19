@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +20,8 @@ import java.util.Optional;
 public class PlayerServiceImpl implements PlayerService {
     private final PlayerRepository playerRepository;
     private final TeamRepository teamRepository;
+    @Autowired
+    private CloudinaryService cloudinaryService;
     @Autowired
     public PlayerServiceImpl(PlayerRepository playerRepository, TeamRepository teamRepository) {
         this.playerRepository = playerRepository;
@@ -99,6 +103,19 @@ public class PlayerServiceImpl implements PlayerService {
 
         }catch (Exception ex){
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Override
+    public ResponseEntity<Object> updateImage(int IDPlayer, MultipartFile avatar) throws IOException {
+        Optional<Player> player = playerRepository.findById(IDPlayer);
+        if(player.isPresent()){
+            Player update = player.get();
+            update.setPhoto(cloudinaryService.uploadImage(avatar));
+            playerRepository.save(update);
+            return new ResponseEntity<>("Update thành công",HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>("Không tìm thấy", HttpStatus.NOT_FOUND);
         }
     }
 }
