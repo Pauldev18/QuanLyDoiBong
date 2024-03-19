@@ -39,4 +39,8 @@ public class PlayerController {
                                               @RequestParam("avatar")MultipartFile avt) throws IOException {
         return playerService.updateImage(IDPlayer, avt);
     }
+    @GetMapping("/getPlayerByIDTeam/{IDTeam}")
+    public List<Player> getByIDTeam(@PathVariable int IDTeam){
+        return playerService.getPlayerByIDTeam(IDTeam);
+    }
 }

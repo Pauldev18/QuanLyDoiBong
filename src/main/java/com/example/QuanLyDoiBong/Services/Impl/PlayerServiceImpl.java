@@ -118,4 +118,9 @@ public class PlayerServiceImpl implements PlayerService {
             return new ResponseEntity<>("Không tìm thấy", HttpStatus.NOT_FOUND);
         }
     }
+
+    @Override
+    public List<Player> getPlayerByIDTeam(int IDTeam) {
+        return playerRepository.getPlayerByIDTeam(IDTeam);
+    }
 }

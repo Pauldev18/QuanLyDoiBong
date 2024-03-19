@@ -14,4 +14,5 @@ public interface PlayerService {
     ResponseEntity<Object> deletePlayer(int IDPlayer);
     ResponseEntity<Object> insertPlayer(PlayerDTO player);
     ResponseEntity<Object> updateImage(int IDPlayer, MultipartFile avatar) throws IOException;
+    List<Player> getPlayerByIDTeam(int IDTeam);
 }
