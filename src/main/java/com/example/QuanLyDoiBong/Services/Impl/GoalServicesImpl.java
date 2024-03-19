@@ -1,6 +1,7 @@
 package com.example.QuanLyDoiBong.Services.Impl;
 
 import com.example.QuanLyDoiBong.DTO.GoalDTO;
+import com.example.QuanLyDoiBong.DTO.TopScorerDTO;
 import com.example.QuanLyDoiBong.Entities.Goal;
 import com.example.QuanLyDoiBong.Entities.Match;
 import com.example.QuanLyDoiBong.Entities.Player;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -57,5 +59,20 @@ public class GoalServicesImpl implements GoalServices {
         }catch(Exception ex){
             return new ResponseEntity<>(Map.of("message:", "Lỗi", "error:", ex.getMessage()), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @Override
+    public List<TopScorerDTO> getTopScorers() {
+        List<Object[]> topScorersData = goalRepository.findTopScorers();
+        List<TopScorerDTO> topScorersDTO = new ArrayList<>();
+
+        for (Object[] obj : topScorersData) {
+            Player player = (Player) obj[0];
+            Long goalsScored = (Long) obj[1];
+            TopScorerDTO dto = new TopScorerDTO(player, goalsScored.intValue());
+            topScorersDTO.add(dto);
+        }
+
+        return topScorersDTO;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.QuanLyDoiBong.Controller;
 
 import com.example.QuanLyDoiBong.DTO.GoalDTO;
+import com.example.QuanLyDoiBong.DTO.TopScorerDTO;
 import com.example.QuanLyDoiBong.Entities.Goal;
 import com.example.QuanLyDoiBong.Services.GoalServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,9 @@ public class GoalController {
     @PostMapping("/insertGoals")
     public ResponseEntity<Object> insertGoals(@RequestBody GoalDTO goalDTO){
         return goalServices.insertGoal(goalDTO);
+    }
+    @GetMapping("/top-scorers")
+    public List<TopScorerDTO> getTopScorers() {
+        return goalServices.getTopScorers();
     }
 }
