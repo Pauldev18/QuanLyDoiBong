@@ -85,9 +85,15 @@ create table cards
     foreign key(idmatch) references matches(idmatch),
     foreign key(idplayer) references player(idplayer)
 );
+create table accounts
+(
+    user_name nvarchar(255) not null primary key,
+    pass_word nvarchar(255) not null,
+    role nvarchar(255) not null
+);
+
 -- trigger tính điểm
 DELIMITER //
-
 CREATE TRIGGER CalculatePointsAfterMatchInsert
     AFTER INSERT ON matches
     FOR EACH ROW
@@ -181,7 +187,7 @@ INSERT INTO tournaments (tournaments_name, start_date, end_date) VALUES
 
 -- Thêm dữ liệu vào bảng matches
 INSERT INTO matches (idtournaments, home_teamid, away_teamid, home_team_score, away_team_score, match_date, status, yellow_cards_home_team, red_cards_home_team, yellow_cards_away_team, red_cards_away_team, loai_tran_dau) VALUES
-                                                                                                                                                                                                                                 (1, 1, 2, 2, 1, '2022-01-05', 'Finished', 2, 0, 1, 0, 'chinh thuc'),
+                                                                                                                                                                                                                                 (1, 1, 2, 1, 2, '2022-01-05', 'Finished', 2, 0, 1, 0, 'chinh thuc'),
                                                                                                                                                                                                                                  (2, 2, 3, 1, 1, '2022-02-10', 'Finished', 1, 0, 1, 0, 'Loai Tran Dau 2'),
                                                                                                                                                                                                                                  (3, 3, 4, 3, 0, '2022-03-15', 'Finished', 0, 0, 2, 0, 'Loai Tran Dau 3'),
                                                                                                                                                                                                                                  (4, 4, 5, 0, 2, '2022-04-20', 'Finished', 0, 1, 0, 0, 'Loai Tran Dau 4'),
