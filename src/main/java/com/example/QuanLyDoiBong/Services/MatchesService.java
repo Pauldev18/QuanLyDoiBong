@@ -3,6 +3,7 @@ package com.example.QuanLyDoiBong.Services;
 import com.example.QuanLyDoiBong.DTO.MatchDTO;
 import com.example.QuanLyDoiBong.DTO.ThongKeFull;
 import com.example.QuanLyDoiBong.DTO.ThongKeMatch;
+import com.example.QuanLyDoiBong.Entities.Goal;
 import com.example.QuanLyDoiBong.Entities.Match;
 import org.springframework.http.ResponseEntity;
 
@@ -18,4 +19,6 @@ public interface MatchesService {
 
     ResponseEntity<List<Map<String, Object>>> thongke2(Integer idtour, Integer idteam);
 
+    List<Goal> getGoalHome(int idmatch, int idteam);
+    List<Goal> getGoalAway(int idmatch, int idteam);
 }

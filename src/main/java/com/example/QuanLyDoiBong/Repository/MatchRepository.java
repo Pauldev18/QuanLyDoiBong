@@ -44,7 +44,8 @@ public interface MatchRepository extends JpaRepository<Match, Integer> {
             "    m.match_date,\n" +
             "    m.status,\n" +
             "    m.loai_tran_dau,\n" +
-            "\tm.idtournaments,\n" +
+            "    m.idtournaments,\n" +
+            "    tournaments.tournaments_name AS tournament_name, -- Thêm tên giải đấu vào đây\n" +
             "    m.home_teamid,\n" +
             "    m.away_teamid,\n" +
             "    COALESCE(c1.total_yellow_cards, 0) AS total_yellow_cards_home,\n" +
@@ -75,8 +76,10 @@ public interface MatchRepository extends JpaRepository<Match, Integer> {
             "    (SELECT idmatch, idteam, COUNT(*) AS total_goals\n" +
             "     FROM goals\n" +
             "     GROUP BY idmatch, idteam) g2 ON m.idmatch = g2.idmatch AND m.away_teamid = g2.idteam\n" +
+            "INNER JOIN\n" +
+            "    tournaments ON m.idtournaments = tournaments.idtournaments -- Thêm INNER JOIN với bảng tournaments\n" +
             "WHERE \n" +
-            "      (m.idtournaments = IFNULL(?1, m.idtournaments))  AND (m.home_teamid = IFNULL(?2, m.home_teamid)) AND m.loai_tran_dau = 'chinhthuc' AND m.status = 'Finished';\n", nativeQuery = true)
+            "    (m.idtournaments = IFNULL(?1, m.idtournaments))  AND (m.home_teamid = IFNULL(?2, m.home_teamid)) AND m.loai_tran_dau = 'chinhthuc' AND m.status = 'Finished';\n", nativeQuery = true)
     List<Object[]> thongKe2(Integer tournamentId, Integer idteam);
 
 }

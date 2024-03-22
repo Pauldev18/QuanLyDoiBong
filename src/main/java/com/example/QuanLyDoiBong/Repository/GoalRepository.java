@@ -14,4 +14,8 @@ public interface GoalRepository extends JpaRepository<Goal, Integer> {
             "GROUP BY g.player " +
             "ORDER BY goalsScored DESC")
     List<Object[]> findTopScorers();
+    @Query(value = "SELECT * from goals where idmatch= ?1 and idteam = ?2", nativeQuery = true)
+    List<Goal> findGoalHome(int idmatch, int idHome);
+    @Query(value = "SELECT * from goals where idmatch= ?1 and idteam = ?2", nativeQuery = true)
+    List<Goal> findGoalAway(int idmatch, int idAway);
 }

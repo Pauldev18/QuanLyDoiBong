@@ -6,10 +6,7 @@ import com.example.QuanLyDoiBong.Entities.Goal;
 import com.example.QuanLyDoiBong.Services.GoalServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,4 +29,7 @@ public class GoalController {
     public List<TopScorerDTO> getTopScorers() {
         return goalServices.getTopScorers();
     }
+    @GetMapping("/getGoalHome")
+    public List<Goal> getGoalHome(@RequestParam("idmatch") int idmatch,
+                                  @RequestParam("idteam") int idteam)
 }

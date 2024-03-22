@@ -3,6 +3,7 @@ package com.example.QuanLyDoiBong.Services.Impl;
 import com.example.QuanLyDoiBong.DTO.MatchDTO;
 import com.example.QuanLyDoiBong.DTO.ThongKeFull;
 import com.example.QuanLyDoiBong.DTO.ThongKeMatch;
+import com.example.QuanLyDoiBong.Entities.Goal;
 import com.example.QuanLyDoiBong.Entities.Match;
 import com.example.QuanLyDoiBong.Entities.Team;
 import com.example.QuanLyDoiBong.Entities.Tournament;
@@ -162,20 +163,29 @@ public class MatchesServiceImpl implements MatchesService {
             matchMap.put("status", obj[6]);
             matchMap.put("loaiTranDau", obj[7]);
             matchMap.put("idTournament", obj[8]);
-            matchMap.put("homeTeamId", obj[9]);
-            matchMap.put("awayTeamId", obj[10]);
-            matchMap.put("totalYellowHome", obj[11]);
-            matchMap.put("totalYellowAway", obj[12]);
-            matchMap.put("totalRedHome", obj[13]);
-            matchMap.put("totalRedAway", obj[14]);
-            matchMap.put("totalGoalHome", obj[15]);
-            matchMap.put("totalGoalAway", obj[16]);
+            matchMap.put("nametour", obj[9]);
+            matchMap.put("homeTeamId", obj[10]);
+            matchMap.put("awayTeamId", obj[11]);
+            matchMap.put("totalYellowHome", obj[12]);
+            matchMap.put("totalYellowAway", obj[13]);
+            matchMap.put("totalRedHome", obj[14]);
+            matchMap.put("totalRedAway", obj[15]);
+            matchMap.put("totalGoalHome", obj[16]);
+            matchMap.put("totalGoalAway", obj[17]);
             resultList.add(matchMap);
         }
         return ResponseEntity.ok(resultList);
     }
 
+    @Override
+    public List<Goal> getGoalHome(int idmatch, int idteam) {
+        return goalRepository.findGoalHome(idmatch, idteam);
+    }
 
+    @Override
+    public List<Goal> getGoalAway(int idmatch, int idteam) {
+        return goalRepository.findGoalAway(idmatch, idteam);
+    }
 
 
 }
