@@ -1,6 +1,7 @@
 package com.example.QuanLyDoiBong.Services.Impl;
 
 import com.example.QuanLyDoiBong.DTO.MatchDTO;
+import com.example.QuanLyDoiBong.DTO.ThongKeFull;
 import com.example.QuanLyDoiBong.DTO.ThongKeMatch;
 import com.example.QuanLyDoiBong.Entities.Match;
 import com.example.QuanLyDoiBong.Entities.Team;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -133,5 +135,22 @@ public class MatchesServiceImpl implements MatchesService {
 
         return ResponseEntity.ok(result);
     }
+
+    @Override
+    public ResponseEntity<List<Object[]>> thongke2(Integer idtour, Integer idteam) {
+        List<Object[]> thongKe2;
+        if (idtour == null && idteam == null) {
+            thongKe2 = matchRepository.thongKe2(idtour, idteam);
+        } else if (idtour == null) {
+            thongKe2 = matchRepository.thongKe2(idtour, idteam);
+        } else if (idteam == null) {
+            thongKe2 = matchRepository.thongKe2(idtour, idteam);
+        } else {
+            thongKe2 = matchRepository.thongKe2(idtour, idteam);
+        }
+        return ResponseEntity.ok(thongKe2);
+    }
+
+
 
 }

@@ -34,4 +34,49 @@ public interface MatchRepository extends JpaRepository<Match, Integer> {
             "    Team.idteam;\n", nativeQuery = true)
     List<Object[]> thongKe(int tournamentId);
 
+
+    @Query(value = "SELECT \n" +
+            "    m.idmatch,\n" +
+            "    t1.team_name AS home_team_name,\n" +
+            "    t2.team_name AS away_team_name,\n" +
+            "    m.home_team_score,\n" +
+            "    m.away_team_score,\n" +
+            "    m.match_date,\n" +
+            "    m.status,\n" +
+            "    m.loai_tran_dau,\n" +
+            "\tm.idtournaments,\n" +
+            "    m.home_teamid,\n" +
+            "    m.away_teamid,\n" +
+            "    COALESCE(c1.total_yellow_cards, 0) AS total_yellow_cards_home,\n" +
+            "    COALESCE(c2.total_yellow_cards, 0) AS total_yellow_cards_away,\n" +
+            "    COALESCE(c1.total_red_cards, 0) AS total_red_cards_home,\n" +
+            "    COALESCE(c2.total_red_cards, 0) AS total_red_cards_away,\n" +
+            "    COALESCE(g1.total_goals, 0) AS total_goals_home,\n" +
+            "    COALESCE(g2.total_goals, 0) AS total_goals_away\n" +
+            "FROM \n" +
+            "    matches m\n" +
+            "INNER JOIN \n" +
+            "    Team t1 ON m.home_teamid = t1.idteam\n" +
+            "INNER JOIN \n" +
+            "    Team t2 ON m.away_teamid = t2.idteam\n" +
+            "LEFT JOIN \n" +
+            "    (SELECT idmatch, idteam, SUM(yellow_cards) AS total_yellow_cards, SUM(red_cards) AS total_red_cards\n" +
+            "     FROM cards\n" +
+            "     GROUP BY idmatch, idteam) c1 ON m.idmatch = c1.idmatch AND m.home_teamid = c1.idteam\n" +
+            "LEFT JOIN \n" +
+            "    (SELECT idmatch, idteam, SUM(yellow_cards) AS total_yellow_cards, SUM(red_cards) AS total_red_cards\n" +
+            "     FROM cards\n" +
+            "     GROUP BY idmatch, idteam) c2 ON m.idmatch = c2.idmatch AND m.away_teamid = c2.idteam\n" +
+            "LEFT JOIN \n" +
+            "    (SELECT idmatch, idteam, COUNT(*) AS total_goals\n" +
+            "     FROM goals\n" +
+            "     GROUP BY idmatch, idteam) g1 ON m.idmatch = g1.idmatch AND m.home_teamid = g1.idteam\n" +
+            "LEFT JOIN \n" +
+            "    (SELECT idmatch, idteam, COUNT(*) AS total_goals\n" +
+            "     FROM goals\n" +
+            "     GROUP BY idmatch, idteam) g2 ON m.idmatch = g2.idmatch AND m.away_teamid = g2.idteam\n" +
+            "WHERE \n" +
+            "      (m.idtournaments = IFNULL(?1, m.idtournaments))  AND (m.home_teamid = IFNULL(?2, m.home_teamid)) AND m.loai_tran_dau = 'chinhthuc' AND m.status = 'Finished';\n", nativeQuery = true)
+    List<Object[]> thongKe2(Integer tournamentId, Integer idteam);
+
 }

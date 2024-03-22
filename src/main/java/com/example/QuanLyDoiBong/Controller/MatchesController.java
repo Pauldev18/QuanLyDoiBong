@@ -1,6 +1,7 @@
 package com.example.QuanLyDoiBong.Controller;
 
 import com.example.QuanLyDoiBong.DTO.MatchDTO;
+import com.example.QuanLyDoiBong.DTO.ThongKeFull;
 import com.example.QuanLyDoiBong.DTO.ThongKeMatch;
 import com.example.QuanLyDoiBong.Entities.Match;
 import com.example.QuanLyDoiBong.Services.MatchesService;
@@ -38,5 +39,12 @@ public class MatchesController {
     @GetMapping("/thongke/{IDTour}")
     public ResponseEntity<List<ThongKeMatch>> getThongKe(@PathVariable int IDTour){
         return matchesService.thongKe(IDTour);
+    }
+
+    @GetMapping("/thongke2")
+    public ResponseEntity<List<Object[]>> getThongKe2(@RequestParam(value = "idtour", required = false) Integer idTour,
+                                                         @RequestParam(value = "idteam", required = false) Integer idTeam
+    ){
+        return matchesService.thongke2(idTour, idTeam);
     }
 }
