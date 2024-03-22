@@ -19,6 +19,4 @@ public interface MatchesService {
 
     ResponseEntity<List<Map<String, Object>>> thongke2(Integer idtour, Integer idteam);
 
-    List<Goal> getGoalHome(int idmatch, int idteam);
-    List<Goal> getGoalAway(int idmatch, int idteam);
 }

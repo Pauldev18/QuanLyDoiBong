@@ -75,4 +75,13 @@ public class GoalServicesImpl implements GoalServices {
 
         return topScorersDTO;
     }
+    @Override
+    public List<Goal> getGoalHome(int idmatch, int idteam) {
+        return goalRepository.findGoalHome(idmatch, idteam);
+    }
+
+    @Override
+    public List<Goal> getGoalAway(int idmatch, int idteam) {
+        return goalRepository.findGoalAway(idmatch, idteam);
+    }
 }

@@ -31,5 +31,12 @@ public class GoalController {
     }
     @GetMapping("/getGoalHome")
     public List<Goal> getGoalHome(@RequestParam("idmatch") int idmatch,
-                                  @RequestParam("idteam") int idteam)
+                                  @RequestParam("idteam") int idteam){
+        return goalServices.getGoalHome(idmatch, idteam);
+    }
+    @GetMapping("/getGoalAway")
+    public List<Goal> getGoalAwat(@RequestParam("idmatch") int idmatch,
+                                  @RequestParam("idteam") int idteam){
+        return goalServices.getGoalAway(idmatch, idteam);
+    }
 }

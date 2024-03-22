@@ -177,15 +177,7 @@ public class MatchesServiceImpl implements MatchesService {
         return ResponseEntity.ok(resultList);
     }
 
-    @Override
-    public List<Goal> getGoalHome(int idmatch, int idteam) {
-        return goalRepository.findGoalHome(idmatch, idteam);
-    }
 
-    @Override
-    public List<Goal> getGoalAway(int idmatch, int idteam) {
-        return goalRepository.findGoalAway(idmatch, idteam);
-    }
 
 
 }
