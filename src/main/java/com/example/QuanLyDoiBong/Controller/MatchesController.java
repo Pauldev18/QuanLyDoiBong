@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -42,8 +43,8 @@ public class MatchesController {
     }
 
     @GetMapping("/thongke2")
-    public ResponseEntity<List<Object[]>> getThongKe2(@RequestParam(value = "idtour", required = false) Integer idTour,
-                                                         @RequestParam(value = "idteam", required = false) Integer idTeam
+    public ResponseEntity<List<Map<String, Object>>> getThongKe2(@RequestParam(value = "idtour", required = false) Integer idTour,
+                                                                 @RequestParam(value = "idteam", required = false) Integer idTeam
     ){
         return matchesService.thongke2(idTour, idTeam);
     }

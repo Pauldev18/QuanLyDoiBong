@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -137,7 +138,7 @@ public class MatchesServiceImpl implements MatchesService {
     }
 
     @Override
-    public ResponseEntity<List<Object[]>> thongke2(Integer idtour, Integer idteam) {
+    public ResponseEntity<List<Map<String, Object>>> thongke2(Integer idtour, Integer idteam) {
         List<Object[]> thongKe2;
         if (idtour == null && idteam == null) {
             thongKe2 = matchRepository.thongKe2(idtour, idteam);
@@ -148,8 +149,32 @@ public class MatchesServiceImpl implements MatchesService {
         } else {
             thongKe2 = matchRepository.thongKe2(idtour, idteam);
         }
-        return ResponseEntity.ok(thongKe2);
+
+        List<Map<String, Object>> resultList = new ArrayList<>();
+        for (Object[] obj : thongKe2) {
+            Map<String, Object> matchMap = new HashMap<>();
+            matchMap.put("idMatch", obj[0]);
+            matchMap.put("homeTeamName", obj[1]);
+            matchMap.put("awayTeamName", obj[2]);
+            matchMap.put("homeTeamScore", obj[3]);
+            matchMap.put("awayTeamScore", obj[4]);
+            matchMap.put("matchDate", obj[5]);
+            matchMap.put("status", obj[6]);
+            matchMap.put("loaiTranDau", obj[7]);
+            matchMap.put("idTournament", obj[8]);
+            matchMap.put("homeTeamId", obj[9]);
+            matchMap.put("awayTeamId", obj[10]);
+            matchMap.put("totalYellowHome", obj[11]);
+            matchMap.put("totalYellowAway", obj[12]);
+            matchMap.put("totalRedHome", obj[13]);
+            matchMap.put("totalRedAway", obj[14]);
+            matchMap.put("totalGoalHome", obj[15]);
+            matchMap.put("totalGoalAway", obj[16]);
+            resultList.add(matchMap);
+        }
+        return ResponseEntity.ok(resultList);
     }
+
 
 
 

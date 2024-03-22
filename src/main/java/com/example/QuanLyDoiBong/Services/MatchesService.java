@@ -7,6 +7,7 @@ import com.example.QuanLyDoiBong.Entities.Match;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MatchesService {
     List<Match> getAllMatch();
@@ -15,6 +16,6 @@ public interface MatchesService {
     ResponseEntity<Object> deleteMacth(int IDMatch);
     ResponseEntity<List<ThongKeMatch>> thongKe(int IDTour);
 
-    ResponseEntity<List<Object[]>> thongke2(Integer idtour, Integer idteam);
+    ResponseEntity<List<Map<String, Object>>> thongke2(Integer idtour, Integer idteam);
 
 }
