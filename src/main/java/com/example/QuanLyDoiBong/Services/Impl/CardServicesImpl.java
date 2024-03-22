@@ -53,4 +53,14 @@ public class CardServicesImpl implements CardServices {
     public List<Card> getAllCard() {
         return cardRepository.findAll();
     }
+
+    @Override
+    public List<Card> getCardHome(int idmatch, int idHome) {
+        return cardRepository.getCardHome(idmatch, idHome);
+    }
+
+    @Override
+    public List<Card> getCardAway(int idmatch, int idAway) {
+        return cardRepository.getCardAway(idmatch, idAway);
+    }
 }
