@@ -30,4 +30,7 @@ public class Tournament {
 
     @Column(name = "EndDate")
     private Date endDate;
+
+    @Column(name = "shows")
+    private boolean shows;
 }

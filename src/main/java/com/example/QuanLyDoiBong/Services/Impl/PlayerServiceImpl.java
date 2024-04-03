@@ -70,7 +70,9 @@ public class PlayerServiceImpl implements PlayerService {
         try{
             Optional<Player> delete = playerRepository.findById(IDPlayer);
             if(delete.isPresent()){
-                playerRepository.delete(delete.get());
+               Player notShow = delete.get();
+               notShow.setShows(false);
+               playerRepository.save(notShow);
                 return new ResponseEntity<>("Xóa thành công", HttpStatus.OK);
             }else{
                 return new ResponseEntity<>("Không tìm thấy", HttpStatus.NOT_FOUND);
@@ -98,6 +100,7 @@ public class PlayerServiceImpl implements PlayerService {
             newObj.setTeam(selectTeam.get());
             newObj.setContractEndDate(player.getContractEndDate());
             newObj.setContractStartDate(player.getContractStartDate());
+            newObj.setShows(true);
             playerRepository.save(newObj);
             return new ResponseEntity<>("Thêm thành công", HttpStatus.OK);
 

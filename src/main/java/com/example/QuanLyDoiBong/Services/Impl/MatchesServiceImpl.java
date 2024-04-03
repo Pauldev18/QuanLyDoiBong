@@ -19,10 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -61,7 +58,8 @@ public class MatchesServiceImpl implements MatchesService {
                     match.getRedCardsHomeTeam(),
                     match.getYellowCardsAwayTeam(),
                     match.getRedCardsAwayTeam(),
-                    match.getLoaiTranDau()
+                    match.getLoaiTranDau(),
+                    true
             );
             matchRepository.save(newObj);
             return new ResponseEntity<>(Map.of("message", "Thành công", "data", newObj), HttpStatus.OK);
@@ -104,9 +102,11 @@ public class MatchesServiceImpl implements MatchesService {
     @Override
     public ResponseEntity<Object> deleteMacth(int IDMatch) {
         try{
-            Match delete = matchRepository.findById(IDMatch).get();
-            if(delete != null){
-                matchRepository.delete(delete);
+            Optional<Match> delete = matchRepository.findById(IDMatch);
+            if(delete.isPresent()){
+                Match notShow = delete.get();
+                notShow.setShows(false);
+                matchRepository.save(notShow);
                 return new ResponseEntity<>(Map.of("message", "Thành công"), HttpStatus.OK);
             }else{
                 return new ResponseEntity<>(Map.of("message", "Lỗi", "error", "Không tìm thấy"), HttpStatus.NOT_FOUND);

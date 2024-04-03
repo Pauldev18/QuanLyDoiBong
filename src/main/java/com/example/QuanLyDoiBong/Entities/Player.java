@@ -42,6 +42,8 @@ public class Player {
     @ManyToOne
     @JoinColumn(name="IDTeam")
     private Team team;
+    @Column(name = "shows")
+    private boolean shows;
     @Column(name= "ContractStartDate")
     private Date contractStartDate;
     @Column(name= "ContractEndDate")

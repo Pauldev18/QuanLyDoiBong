@@ -49,7 +49,9 @@ public class TeamServiceImpl implements TeamServices {
         try{
             Optional<Team> delete = teamRepo.findById(IDTeam);
             if(delete.isPresent()){
-                teamRepo.delete(delete.get());
+               Team notShow = delete.get();
+               notShow.setShows(false);
+               teamRepo.save(notShow);
                 return new ResponseEntity<>("Xóa thành công", HttpStatus.OK);
             }else{
                 return new ResponseEntity<>("Không tìm thấy team", HttpStatus.NOT_FOUND);
@@ -67,6 +69,7 @@ public class TeamServiceImpl implements TeamServices {
             newObj.setTeamName(team.getTeamName());
             newObj.setCountry(team.getCountry());
             newObj.setCoachName(team.getCoachName());
+            newObj.setShows(true);
            if(newObj != null){
                teamRepo.save(newObj);
                return new ResponseEntity<>("Thêm thành công", HttpStatus.OK);

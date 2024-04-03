@@ -12,17 +12,17 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "team")
-public class Team {
+public class AwayTeam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "IDTeam")
-    private int IDTeam;
-    @Column(name = "team_name")
-    private String teamName;
-    @Column(name = "coach_name")
-    private String coachName;
-    @Column(name = "country")
-    private String country;
+    @Column(name = "id_away_team")
+    private int IDAwayTeam;
+    @Column(name = "team_away_name")
+    private String teamAwayName;
+    @Column(name = "coach_away_name")
+    private String coachAwayName;
+    @Column(name = "country_away")
+    private String countryAway;
     @Column(name = "shows")
     private boolean shows;
 }

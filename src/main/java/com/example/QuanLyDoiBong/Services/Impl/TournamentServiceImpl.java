@@ -32,6 +32,7 @@ public class TournamentServiceImpl implements TournamentServices {
             tournament1.setTournamentsName(tournament.getTournamentsName());
             tournament1.setEndDate(tournament.getEndDate());
             tournament1.setStartDate(tournament.getStartDate());
+            tournament1.setShows(true);
             tournamentRepository.save(tournament1);
             return new ResponseEntity<>(Map.of("message:", "Thành công", "data", tournament1),  HttpStatus.OK);
         }catch (Exception ex){
@@ -64,7 +65,8 @@ public class TournamentServiceImpl implements TournamentServices {
             Optional<Tournament> tournament = tournamentRepository.findById(IDTournament);
             if(tournament.isPresent()){
                 Tournament deleteTour = tournament.get();
-                tournamentRepository.delete(deleteTour);
+                deleteTour.setShows(false);
+                tournamentRepository.save(deleteTour);
                 return new ResponseEntity<>(Map.of("message:", "Thành công"),  HttpStatus.OK);
             }else{
                 return new ResponseEntity<>(Map.of("message:", "Lỗi", "error", "Không tìm thấy"),  HttpStatus.NOT_FOUND);

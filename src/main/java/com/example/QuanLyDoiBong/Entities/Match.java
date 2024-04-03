@@ -58,4 +58,6 @@ public class Match {
 
     @Column(name = "loai_tran_dau")
     private String loaiTranDau;
+    @Column(name = "shows")
+    private boolean shows;
 }
