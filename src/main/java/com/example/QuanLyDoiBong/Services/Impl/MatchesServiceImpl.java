@@ -3,14 +3,8 @@ package com.example.QuanLyDoiBong.Services.Impl;
 import com.example.QuanLyDoiBong.DTO.MatchDTO;
 import com.example.QuanLyDoiBong.DTO.ThongKeFull;
 import com.example.QuanLyDoiBong.DTO.ThongKeMatch;
-import com.example.QuanLyDoiBong.Entities.Goal;
-import com.example.QuanLyDoiBong.Entities.Match;
-import com.example.QuanLyDoiBong.Entities.Team;
-import com.example.QuanLyDoiBong.Entities.Tournament;
-import com.example.QuanLyDoiBong.Repository.GoalRepository;
-import com.example.QuanLyDoiBong.Repository.MatchRepository;
-import com.example.QuanLyDoiBong.Repository.TeamRepository;
-import com.example.QuanLyDoiBong.Repository.TournamentRepository;
+import com.example.QuanLyDoiBong.Entities.*;
+import com.example.QuanLyDoiBong.Repository.*;
 import com.example.QuanLyDoiBong.Services.MatchesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +24,8 @@ public class MatchesServiceImpl implements MatchesService {
     @Autowired
     private GoalRepository goalRepository;
     @Autowired
+    private AwayResponse awayResponse;
+    @Autowired
     public MatchesServiceImpl(MatchRepository matchRepository, TournamentRepository tournamentRepository, TeamRepository teamRepository) {
         this.matchRepository = matchRepository;
         this.tournamentRepository = tournamentRepository;
@@ -45,7 +41,7 @@ public class MatchesServiceImpl implements MatchesService {
         try{
             Tournament getTour = tournamentRepository.findById(match.getIDTournament()).get();
             Team homeTeam = teamRepository.findById(match.getHomeTeamID()).get();
-            Team awayTeam = teamRepository.findById(match.getAwayTeamID()).get();
+            AwayTeam awayTeam = awayResponse.findById(match.getAwayTeamID()).get();
             Match newObj =  new Match(0,
                     getTour,
                     homeTeam,
@@ -73,7 +69,7 @@ public class MatchesServiceImpl implements MatchesService {
         try{
             Tournament getTour = tournamentRepository.findById(match.getIDTournament()).get();
             Team homeTeam = teamRepository.findById(match.getHomeTeamID()).get();
-            Team awayTeam = teamRepository.findById(match.getAwayTeamID()).get();
+            AwayTeam awayTeam = awayResponse.findById(match.getAwayTeamID()).get();
             Match select = matchRepository.findById(match.getIDMatch()).get();
             if(getTour != null && homeTeam != null && awayTeam != null && select != null){
                 select.setIDTournaments(getTour);
