@@ -59,7 +59,7 @@ public interface MatchRepository extends JpaRepository<Match, Integer> {
             "INNER JOIN \n" +
             "    Team t1 ON m.home_teamid = t1.idteam\n" +
             "INNER JOIN \n" +
-            "    Team t2 ON m.away_teamid = t2.idteam\n" +
+            "    AwayTeam t2 ON m.away_teamid = t2.id_away_team\n" +
             "LEFT JOIN \n" +
             "    (SELECT idmatch, idteam, SUM(yellow_cards) AS total_yellow_cards, SUM(red_cards) AS total_red_cards\n" +
             "     FROM cards\n" +
