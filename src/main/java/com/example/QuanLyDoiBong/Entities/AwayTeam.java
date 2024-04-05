@@ -11,12 +11,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "team")
+@Table(name = "awayteam")
 public class AwayTeam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_away_team")
-    private int IDAwayTeam;
+    private int idAwayTeam;
     @Column(name = "team_away_name")
     private String teamAwayName;
     @Column(name = "coach_away_name")

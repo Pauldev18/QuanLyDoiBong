@@ -24,7 +24,7 @@ public class AwayTeamServiceImpl implements AwayTeamServices {
     @Override
     public ResponseEntity<Object> updateAwayTeam(AwayTeam teamAway) {
         try{
-            Optional<AwayTeam> updateAwayTeam = awayResponse.findById(teamAway.getIDAwayTeam());
+            Optional<AwayTeam> updateAwayTeam = awayResponse.findById(teamAway.getIdAwayTeam());
 
             if(updateAwayTeam.isPresent()){
                 AwayTeam teamUpdate = updateAwayTeam.get();
@@ -62,7 +62,7 @@ public class AwayTeamServiceImpl implements AwayTeamServices {
     public ResponseEntity<Object> insertAwayTeam(AwayTeam teamAway) {
         try{
             AwayTeam newObj = new AwayTeam();
-            newObj.setIDAwayTeam(teamAway.getIDAwayTeam());;
+            newObj.setIdAwayTeam(teamAway.getIdAwayTeam());;
             newObj.setTeamAwayName(teamAway.getTeamAwayName());
             newObj.setCountryAway(teamAway.getCountryAway());
             newObj.setCoachAwayName(teamAway.getCoachAwayName());
