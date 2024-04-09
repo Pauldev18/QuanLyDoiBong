@@ -173,7 +173,10 @@ public class MatchesServiceImpl implements MatchesService {
         return ResponseEntity.ok(resultList);
     }
 
-
+    @Override
+    public List<Match> getByCaculate(Date tuNgay, Date denNgay, int idTour) {
+        return matchRepository.getByCaculate(tuNgay, denNgay, idTour);
+    }
 
 
 }

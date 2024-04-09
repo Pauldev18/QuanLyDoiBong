@@ -7,6 +7,7 @@ import com.example.QuanLyDoiBong.Entities.Goal;
 import com.example.QuanLyDoiBong.Entities.Match;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -18,5 +19,7 @@ public interface MatchesService {
     ResponseEntity<List<ThongKeMatch>> thongKe(int IDTour);
 
     ResponseEntity<List<Map<String, Object>>> thongke2(Integer idtour, Integer idteam);
+
+    List<Match> getByCaculate(Date tuNgay, Date denNgay, int idTour);
 
 }

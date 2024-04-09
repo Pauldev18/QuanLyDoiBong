@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -82,4 +83,11 @@ public interface MatchRepository extends JpaRepository<Match, Integer> {
             "    (m.idtournaments = IFNULL(?1, m.idtournaments))  AND (m.home_teamid = IFNULL(?2, m.home_teamid)) AND m.loai_tran_dau = 'chinhthuc' AND m.status = 'Finished';\n", nativeQuery = true)
     List<Object[]> thongKe2(Integer tournamentId, Integer idteam);
 
+
+    @Query(value = "SELECT *\n" +
+            "FROM matches\n" +
+            "WHERE match_date BETWEEN ?1 AND ?2 \n" +
+            "AND idtournaments = ?3 \n" +
+            "AND shows = 1;\n", nativeQuery = true)
+    List<Match> getByCaculate(Date tuNgay, Date denNgay, int idTour);
 }
